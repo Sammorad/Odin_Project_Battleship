@@ -1,22 +1,26 @@
 export class ship{
-    constructor(length, numberOfHit, sunk){
-        this.length = this.length;
-        this.numberOfHit = 0;
-        this.sunk = false
+    constructor(length){
+      this.size = new Array(length)
+        this.hits = 0  
+        
     }
+  
 
     hit(){
-        if (this.numberOfHit == this.length){
-            return (!this.sunk)
-        } else{
-            return this.sunk
-        }
+        //count the number of hits to my ship 
+      if(this.hits < this.size.length){
+        this.hits = this.hits + 1
+      }
+      else {
+        this.hits
+      }
+      return this.hits
     }
-    isSunk(numOfHit, shiplength){
-        if (numOfHit === shiplength){
-            return `ship is sunk`
-        }
-        
+    isSunk(){
+        //check if my ship sinks 
+       if (this.hits  === this.size.length){
+        return "sink"
+       }return "not sink"
 
     }
 }

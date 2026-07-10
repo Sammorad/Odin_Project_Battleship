@@ -1,7 +1,18 @@
 import{ ship } from "./battleship"
 
+let myShip = new ship(4)
 
-test("determine if a ship is sunck", () =>{
-    const myShip = new ship(4)
-    expect (myShip.isSunk(4,4)) .tobe(`ship is sunk`)
+
+test("check if a ship is not sunk, length > num of hits", ()=> {
+    myShip.hit()
+    myShip.hit()
+    expect(myShip.isSunk()).toBe("not sink")
+})
+
+test('check if a ship is sunk, length = num of hits ', ()=>{
+    myShip.hit()
+    myShip.hit()
+    myShip.hit()
+    myShip.hit()
+    expect(myShip.isSunk()) .toBe("sink")
 })
