@@ -25,4 +25,52 @@ export class ship{
     }
 }
 
-    
+export class gameBoard{
+  //game board class for placing ships and recieving attacks 
+
+  constructor(length,breadth){
+    this.length = length;
+    this.breadth = breadth;
+    this.board = []
+      //construct gameboard with cordinates 
+       for(let i =0; i < this.length; i++){
+        let row = [];
+        for(let j = 0; j < this.breadth; j++){
+          row.push([i,j])
+
+        }
+       this.board.push(row)
+      }
+
+   }
+
+  
+placeShip(n,i,j, direction){
+  //place ships on the board
+  let myShip = new ship(n)
+  if (direction === "horizontal"){
+    if ((j + n-1) >= this.breadth){
+      return "invalid cells"
+    }
+      for (let column = j; column < j +n; column++){
+        this.board[i][column] = myShip
+      }
+return this.board
+
+  }else if (direction === "vertical"){
+    if ((i +n-1) >= this.length){
+      return  "invalid cells"
+    }
+    for(let row = i; column < i+ n; column++){
+      this.board[row][j] = myShip
+    }
+
+  return this.board
+
+  } 
+  return "invalid direction"
+
+}
+
+
+}
