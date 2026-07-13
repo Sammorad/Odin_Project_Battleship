@@ -36,7 +36,7 @@ export class gameBoard{
        for(let i =0; i < this.length; i++){
         let row = [];
         for(let j = 0; j < this.breadth; j++){
-          row.push([i,j])
+          row.push([null])
 
         }
        this.board.push(row)
@@ -48,20 +48,21 @@ export class gameBoard{
 placeShip(n,i,j, direction){
   //place ships on the board
   let myShip = new ship(n)
-  if (direction === "horizontal"){
+  if (direction === "horizontal"){//check direction to place the ship
     if ((j + n-1) >= this.breadth){
       return "invalid cells"
     }
       for (let column = j; column < j +n; column++){
+        if (this.board[i][column] !== null) return "ship exist"
         this.board[i][column] = myShip
       }
-return this.board
-
-  }else if (direction === "vertical"){
-    if ((i +n-1) >= this.length){
+  return this.board }
+    else if (direction === "vertical"){
+    if ((i + n-1) >= this.length){
       return  "invalid cells"
     }
-    for(let row = i; column < i+ n; column++){
+    for(let row = i; row < i+ n; row++){
+      if (this.board[row][j] !== null) return "ship exist"
       this.board[row][j] = myShip
     }
 

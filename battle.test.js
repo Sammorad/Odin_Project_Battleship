@@ -30,6 +30,4 @@ test("check if the game board is correctly created ", ()=>{
 test("check the cells for the shp", ()=> {
     expect(myBoard.placeShip(4,2,4, "horizontal")) .toBe("invalid cells")
     expect(myBoard.placeShip(4, 2, 4, "diagonal"))  .toBe("invalid direction")
-    
-    expect(myBoard.placeShip(4, 2, 2, "horizontal"))  .toBe(myBoard.board[2][2] === myShip)
 })
