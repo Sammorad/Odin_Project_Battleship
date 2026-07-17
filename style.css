@@ -1,9 +1,18 @@
+body{
+    min-height: 100vh;
+}
 .container{
     display: flex;
     min-width: 100%;
     flex-wrap: wrap;
-   justify-content: space-between;
+   justify-content: space-around;
+   margin: 10px 10px 10px 10px   ;
     
+}
+
+.full_content{
+    display: grid;
+    grid-template-rows: 4fr 1fr;
 }
 .gameboard{
     display: grid;
@@ -18,4 +27,38 @@
 }
 .cell{
     border: 1px black solid;
+}
+.shipsArray, .shipcells, .shipTray{
+    border: 1px solid black;
+}
+.shipsArray{
+    /* organised arrangement of the ships*/
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 20px 10px 5px 10px ;
+}
+
+.shipTray{
+    /* The ships themselves at the foot */
+    display: flex;
+    justify-content: center;
+    gap: 2px;
+    height: 30%;
+    cursor: grab;
+    
+ 
+}
+
+.shipcells{
+    /* individual cells making up the ship */
+    border: 3px solid black;
+    width: 40px;
+    height: 40px;
+    background-color: red;
+
+}
+
+.occupied{
+    background: #4a90e2 ;
 }
