@@ -36,7 +36,7 @@ export class gameBoard{
        for(let i =0; i < this.length; i++){
         let row = [];
         for(let j = 0; j < this.breadth; j++){
-          row.push([null])
+          row.push(null)
 
         }
        this.board.push(row)
@@ -73,5 +73,27 @@ placeShip(n,i,j, direction){
 
 }
 
+recieveAttack(i,j){
+  //determines if the attack hits a ship
+  let cell = this.board[i][j];
+  if (cell === null) {
+    this.board[i][j] = "O"
+    return "O"
+  }
+  else{
+  let ShipName = this.board[i][j] // identify the ship that was hit
+  cell.hit()
+  this.board[i][j] = "X" 
+  return ShipName
+  }
 
+}
+
+}
+
+export class Player {
+  constructor(name){
+    this.name = name;
+    this.myBoard = gameBoard;
+  }
 }

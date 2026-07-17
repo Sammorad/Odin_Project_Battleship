@@ -31,3 +31,10 @@ test("check the cells for the shp", ()=> {
     expect(myBoard.placeShip(4,2,4, "horizontal")) .toBe("invalid cells")
     expect(myBoard.placeShip(4, 2, 4, "diagonal"))  .toBe("invalid direction")
 })
+
+test("check the attack hits a shp", ()=> {
+    expect(recieveAttack(2,2)) .toBe("X")
+})
+test("check the attack miss a ship", ()=> {
+    expect(recieveAttack(2,5)) .toBe("O")
+})

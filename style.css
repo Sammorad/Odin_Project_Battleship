@@ -1,0 +1,21 @@
+.container{
+    display: flex;
+    min-width: 100%;
+    flex-wrap: wrap;
+   justify-content: space-between;
+    
+}
+.gameboard{
+    display: grid;
+    grid-template: repeat(7, 50px) / repeat(7, 50px);
+    border: 2px black solid;   
+
+}
+.playerOne, .playerTwo{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.cell{
+    border: 1px black solid;
+}
