@@ -33,6 +33,7 @@ function createGrid(boardE1, length, breadth){
     return boardE1
 }
 
+
 function wireBoardDrop(boardE1){
     const cells = boardE1.querySelectorAll(".cell");
     cells.forEach((cell) => {
@@ -42,7 +43,7 @@ function wireBoardDrop(boardE1){
         })
         cell.addEventListener("drop", function(e){
             e.preventDefault();
-
+            //check for id for each ship and check if ship tray is found 
             const shipId = e.dataTransfer.getData("text/ship_id");
             const shipTray = shipRegistry.get(shipId);
             if (!shipTray) return;
@@ -53,6 +54,18 @@ function wireBoardDrop(boardE1){
 
             const placementCells = []
             const direction = shipTray.dataset.direction || "horizontal";
+            const modelPlacement = playerOneBoard.placeShip(
+                shipLength,
+                startRow,
+                startCol,
+                direction
+            );
+            if (modelPlacement === "invalid cells"  || modelPlacement === "ship exist"){
+                return;
+            }
+            console.log("Model placeship result", modelPlacement)
+
+            
 
 
             for (let offset = 0; offset < shipLength; offset++){
@@ -61,15 +74,11 @@ function wireBoardDrop(boardE1){
                 
                 if (row >= Grid_Size || col >= Grid_Size) return; //longer than the breadth of the board
                 const target = boardE1.querySelector(
-                    '.cell[data-row="' + row +'"][data-col = "' + col + '"]'
+                    '.cell[data-row="' + row +'"][data-col ="' + col + '"]'
 
                 )
                 if (!target || target.dataset.occupied  === "1") return
                 placementCells.push(target);
-
-                
-
-
     
             }
 
@@ -80,7 +89,11 @@ function wireBoardDrop(boardE1){
                 c.classList.add("occupied");
 
                 })
-                shipTray.remove();
+                console.log("DOM painted cells", placementCells.map(c => ({
+                row: c.dataset.row,
+                col: c.dataset.col
+                })));
+                shipTray.remove(); //remove ship tray once placed on grid//
         })
         
     });
@@ -97,6 +110,40 @@ function trayDirection(e){
     'horizontal';
     shipTray.dataset.direction =next;
     shipTray.classList.toggle("vertical", next === "vertical")
+
+}
+
+const computerShips =[5,4,4,3,3,3,2,2,2,2]; //computer ships in an array for random selection//
+
+function placeComputerShip(board){
+    //placing of ships on board of computer and on the dom
+    for (let len of computerShips){
+        let placed = false;
+    while(!placed){
+        //generate random index for row and column 
+        const row = Math.floor(Math.random() * 10);
+        const col = Math.floor(Math.random() * 10);
+        const dir = Math.random() < 0.5 ? "horizontal": "vertical";
+        const result = board.placeShip(len, row, col, dir);
+        placed = result !== "invalid cells" && result !== "ship exist";
+        if (placed) {
+            for (let offset = 0; offset < len; offset++) {
+                const r = dir === "vertical" ? row + offset : row;
+                const c = dir === "horizontal" ? col + offset : col;
+                    
+                const cell = PlayerTwoGrid.querySelector(
+                    `.cell[data-row="${r}"][data-col="${c}"]`
+                    );
+                    
+                if (cell) {
+                cell.dataset.occupied = "1";
+                cell.classList.add("occupied");
+                    }
+                }
+            }
+    }
+    }
+        
 
 }
 function eachShip(length){
@@ -147,14 +194,12 @@ function eachShip(length){
     });
 }
 
-
-   
-
-
 createGrid(playerOneGrid, 10,10)
 createGrid(PlayerTwoGrid, 10, 10) 
 
 wireBoardDrop(playerOneGrid)
+placeComputerShip(playerTwoBoard)
+
 eachShip(5)
 eachShip(4)
 eachShip(4)
@@ -165,9 +210,3 @@ eachShip(2)
 eachShip(2)
 eachShip(2)
 eachShip(2)
-
-
-
-
-
-

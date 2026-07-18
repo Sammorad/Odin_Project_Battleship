@@ -1,5 +1,7 @@
 body{
     min-height: 100vh;
+    font-family: Roboto, sans-serif;
+    margin: 0px;
 }
 .container{
     display: flex;
@@ -70,8 +72,10 @@ body{
 }
 h1{
     background-color: gray;
-    margin-top: 0px;
+    margin: 0px;
     padding: 10px;
+    height: 5%;
+    color: red;
 }
 
 .rotateBtn{
@@ -91,5 +95,5 @@ h1{
 .rotateBtn  img{ 
     width: 16px;
     height: 16px;
-    
+
 }
