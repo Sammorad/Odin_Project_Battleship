@@ -6,7 +6,7 @@ body{
     min-width: 100%;
     flex-wrap: wrap;
    justify-content: space-around;
-   margin: 10px 10px 10px 10px   ;
+   margin: 0px 10px 10px 10px   ;
     
 }
 
@@ -16,7 +16,7 @@ body{
 }
 .gameboard{
     display: grid;
-    grid-template: repeat(7, 50px) / repeat(7, 50px);
+    grid-template: repeat(10, 30px) / repeat(10, 30px);
     border: 2px black solid;   
 
 }
@@ -42,23 +42,54 @@ body{
 .shipTray{
     /* The ships themselves at the foot */
     display: flex;
-    justify-content: center;
-    gap: 2px;
-    height: 30%;
-    cursor: grab;
+    align-items: center;
+    gap: 6px;
     
  
+}
+.shipSegments{
+    display: flex;
+    gap: 2px;
+}
+
+.shipTray.vertical .shipSegments{
+    flex-direction: column;
 }
 
 .shipcells{
     /* individual cells making up the ship */
     border: 3px solid black;
-    width: 40px;
-    height: 40px;
+    width: 10px;
+    height: 100%;
     background-color: red;
 
 }
 
 .occupied{
     background: #4a90e2 ;
+}
+h1{
+    background-color: gray;
+    margin-top: 0px;
+    padding: 10px;
+}
+
+.rotateBtn{
+    border: 1px solid black;
+    background: white;
+    cursor: pointer;
+    padding: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.rotateImg{
+    height: 100%;
+    
+}
+
+.rotateBtn  img{ 
+    width: 16px;
+    height: 16px;
+    
 }
