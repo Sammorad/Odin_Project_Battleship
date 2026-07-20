@@ -1,7 +1,9 @@
 export class ship{
     constructor(length){
       this.size = new Array(length)
-        this.hits = 0  
+        this.hits = 0;
+        this.id = id;
+        this.name =name;
         
     }
   
@@ -52,9 +54,9 @@ placeShip(n,i,j, direction){
     if ((j + n-1) >= this.breadth){
       return "invalid cells"
     }
-      for (let column = j; column < j +n; column++){
-        if (this.board[i][column] !== null) return "ship exist"
-        this.board[i][column] = myShip
+      for (let col = j; col < j +n; col++){
+        if (this.board[i][col] !== null) return "ship exist"
+        this.board[i][col] = myShip
       }
   return this.board }
     else if (direction === "vertical"){
@@ -73,7 +75,7 @@ placeShip(n,i,j, direction){
 
 }
 
-recieveAttack(i,j){
+receiveAttack(i,j){
   //determines if the attack hits a ship
   let cell = this.board[i][j];
   if (cell === null) {
@@ -82,8 +84,9 @@ recieveAttack(i,j){
   }
   else{
   let ShipName = this.board[i][j] // identify the ship that was hit
-  cell.hit()
   this.board[i][j] = "X" 
+  cell.hit()
+ 
   return ShipName
   }
 

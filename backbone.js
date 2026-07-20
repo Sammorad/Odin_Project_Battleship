@@ -10,11 +10,11 @@ const container = document.querySelector(".full_content")
 const playerOneGrid = document.querySelector(".playerOne .gameboard")
 const PlayerTwoGrid = document.querySelector(".playerTwo .gameboard")
 let playerOne = new Player("playerOne")
-let playerOneBoard = new playerOne.myBoard(10, 10)
+export let playerOneBoard = new playerOne.myBoard(10, 10)
 let playerTwo = new Player("playerTwo")
-let playerTwoBoard = new playerTwo.myBoard(10,10)
+export let playerTwoBoard = new playerTwo.myBoard(10,10)
 
-function createGrid(boardE1, length, breadth){
+export function createGrid(boardE1, length, breadth){
     //create a grid board with required number of cells
     boardE1.innerHTML = ""
     for (let i = 0; i < (length * breadth); i++){
@@ -27,6 +27,7 @@ function createGrid(boardE1, length, breadth){
         cell.dataset.index = i;
         cell.dataset.row = row;
         cell.dataset.col = col;
+        
 
         boardE1.appendChild(cell)
     }
@@ -34,7 +35,7 @@ function createGrid(boardE1, length, breadth){
 }
 
 
-function wireBoardDrop(boardE1){
+export function wireBoardDrop(boardE1){
     const cells = boardE1.querySelectorAll(".cell");
     cells.forEach((cell) => {
         cell.addEventListener("dragover", function(e){
@@ -64,10 +65,7 @@ function wireBoardDrop(boardE1){
                 return;
             }
             console.log("Model placeship result", modelPlacement)
-
             
-
-
             for (let offset = 0; offset < shipLength; offset++){
                 const row = direction === "vertical"?  startRow + offset : startRow;
                 const col = direction === "horizontal"? startCol + offset : startCol;
@@ -103,7 +101,7 @@ function wireBoardDrop(boardE1){
 const shipsArray = document.createElement("div") // a container below the grid for all ship samples
 shipsArray.classList.add("shipsArray")
 container.appendChild(shipsArray)
-function trayDirection(e){
+export function trayDirection(e){
     e.preventDefault();
     e.stopPropagation();
     const next = shipTray.dataset.direction === "horizontal"? "vertical":
@@ -115,7 +113,7 @@ function trayDirection(e){
 
 const computerShips =[5,4,4,3,3,3,2,2,2,2]; //computer ships in an array for random selection//
 
-function placeComputerShip(board){
+export function placeComputerShip(board){
     //placing of ships on board of computer and on the dom
     for (let len of computerShips){
         let placed = false;
@@ -146,7 +144,7 @@ function placeComputerShip(board){
         
 
 }
-function eachShip(length){
+export function eachShip(length){
     const shipTray = document.createElement("div");
     shipTray.classList.add("shipTray");
     shipTray.draggable = true;
@@ -193,9 +191,6 @@ function eachShip(length){
         e.dataTransfer.setData("text/ship_id", shipId);
     });
 }
-
-createGrid(playerOneGrid, 10,10)
-createGrid(PlayerTwoGrid, 10, 10) 
 
 wireBoardDrop(playerOneGrid)
 placeComputerShip(playerTwoBoard)
