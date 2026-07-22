@@ -192,8 +192,7 @@ export function eachShip(length){
     });
 }
 
-wireBoardDrop(playerOneGrid)
-placeComputerShip(playerTwoBoard)
+
 
 eachShip(5)
 eachShip(4)

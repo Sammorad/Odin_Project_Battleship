@@ -2,8 +2,7 @@ export class ship{
     constructor(length){
       this.size = new Array(length)
         this.hits = 0;
-        this.id = id;
-        this.name =name;
+      
         
     }
   
