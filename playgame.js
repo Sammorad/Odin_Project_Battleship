@@ -8,7 +8,16 @@ const triedByComputer = new Set();
 let currentTurn = "player"
 let gameOver = false
 
+function handleAttack(board, grid, row, col, label){
+    const result = board.receiveAttack(row,col);
+    const cell = grid.querySelector(`.cell[data-row="${row}"][data-col="${col}"]`);
+    if (cell){
+        cell.textContent = board.board[row][col];
+    }
 
+    console.log(label,result)
+    return result;
+}
 
 function getComputerMove(){
     //defines how computer randomly selects a cell
@@ -16,7 +25,7 @@ function getComputerMove(){
     while (true){
         const row = Math.floor(Math.random() * 10);
         const col = Math.floor(Math.random() * 10);
-        const key = `${row}${col}`;
+        const key = `${row}-${col}`;
 
         if (!triedByComputer.has(key)){ //check already added cells 
             triedByComputer.add(key); //add cells after selection to set of already tried cells//
@@ -25,25 +34,53 @@ function getComputerMove(){
     }
 }
 
+function computerTurn(){
+    if (gameOver) return 
+    while (currentTurn === "computer" && !gameOver){
+        const move = getComputerMove();
+        const result = handleAttack(playerOneBoard, playerOneGrid, move.row, move.col, "COMPUTER");
+
+        if (playerOneBoard.sunkFleet.size === playerOneBoard.fleet.length  && playerOneBoard.fleet.length > 0){
+            gameOver = true;
+            console.log("Game over: Computer wins")
+            return;
+        }
+
+        if (result.status === "miss"){
+            currentTurn = "player"
+        }
+    }
+}
+
+function playerAttack(row, col){
+    if (gameOver || currentTurn !== "player") return 
+    const result = handleAttack(playerTwoBoard, PlayerTwoGrid, row, col, "PLAYER")
+    if (result.status === "already-attacked") return;
+
+    if (playerTwoBoard.sunkFleet.size === playerTwoBoard.fleet.length && playerTwoBoard.fleet.length > 0){
+        gameOver = true;
+        console.log("Game Over: Player wins")
+        return;
+    }
+    if (result.status === "miss"){
+        currentTurn = "computer";
+        computerTurn();
+    }
+
+}
+
 //add eventlistener to the start button to bring up the board on click of the start button// 
 function startGame(e){
     e.preventDefault()
     createGrid(playerOneGrid, 10,10)
     createGrid(PlayerTwoGrid, 10, 10)
-
-    const board1Cells = playerOneGrid.querySelectorAll(".cell");
- 
-
     //for the board 2
     const board2Cells = PlayerTwoGrid.querySelectorAll(".cell");
     board2Cells.forEach((cell) => {
         cell.addEventListener("click", (event)=>{
             const row = Number(event.currentTarget.dataset.row)
             const col = Number(event.currentTarget.dataset.col)
-            const cellValue = playerTwoBoard.board[row][col];
-            if (cellValue === "X" || cellValue === "O")  return;
-
-            playerTwoBoard.receiveAttack(row, col);
+            playerAttack(row, col)
             console.log("After:", playerTwoBoard.board[row][col]);
             console.log("Raw PlayertTwo board:", playerTwoBoard.board);
 
@@ -55,7 +92,7 @@ function startGame(e){
                     return "S"
                 }))
             )
-            cell.textContent = playerTwoBoard.board[row][col]
+            
 
             
         })
