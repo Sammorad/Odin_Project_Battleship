@@ -2,6 +2,9 @@ export class ship{
     constructor(length){
       this.size = new Array(length)
         this.hits = 0;
+        
+
+
       
         
     }
@@ -33,6 +36,8 @@ export class gameBoard{
     this.length = length;
     this.breadth = breadth;
     this.board = []
+    this.fleet = [];
+    this.sunkFleet = new Set();
       //construct gameboard with cordinates 
        for(let i =0; i < this.length; i++){
         let row = [];
@@ -57,6 +62,7 @@ placeShip(n,i,j, direction){
         if (this.board[i][col] !== null) return "ship exist"
         this.board[i][col] = myShip
       }
+  this.fleet.push(myShip);
   return this.board }
     else if (direction === "vertical"){
     if ((i + n-1) >= this.length){
@@ -66,6 +72,7 @@ placeShip(n,i,j, direction){
       if (this.board[row][j] !== null) return "ship exist"
       this.board[row][j] = myShip
     }
+  this.fleet.push(myShip)
 
   return this.board
 
@@ -77,17 +84,21 @@ placeShip(n,i,j, direction){
 receiveAttack(i,j){
   //determines if the attack hits a ship
   let cell = this.board[i][j];
+  if (cell==="X" || cell === "O"){
+    return {status: "already-attacked"}
+  }
   if (cell === null) {
     this.board[i][j] = "O"
-    return "O"
+    return {status: "miss"};
   }
-  else{
-  let ShipName = this.board[i][j] // identify the ship that was hit
-  this.board[i][j] = "X" 
-  cell.hit()
- 
-  return ShipName
+  cell.hit();
+  this.board[i][j] = "X";
+
+  if (cell.isSunk() === "sink"){
+    this.sunkFleet.add(cell)
+    return { status: "sunk", sunkCount: this.sunkFleet.size, totalShips: this.fleet.length}
   }
+  return { status: "hit", sunkCount: this.sunkFleet.size, totalShips: this.fleet.length}
 
 }
 
