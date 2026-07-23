@@ -18,6 +18,12 @@ function colorSunkShip(grid, sunkShip) {
         ;
 })
 }
+function showWinner(message){
+    const headerTitle = document.querySelector("header h1");
+    if (headerTitle){
+        headerTitle.textContent = message;
+    }
+}
 
 function handleAttack(board, grid, row, col, label){
     const result = board.receiveAttack(row,col);
@@ -57,6 +63,7 @@ function computerTurn(){
 
         if (playerOneBoard.sunkFleet.size === playerOneBoard.fleet.length  && playerOneBoard.fleet.length > 0){
             gameOver = true;
+            showWinner("Game over: Computer Wins")
             console.log("Game over: Computer wins")
             return;
         }
@@ -77,6 +84,7 @@ function playerAttack(row, col){
 
     if (playerTwoBoard.sunkFleet.size === playerTwoBoard.fleet.length && playerTwoBoard.fleet.length > 0){
         gameOver = true;
+        showWinner("Game over: Player wins")
         console.log("Game Over: Player wins")
         return;
     }
