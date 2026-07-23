@@ -2,6 +2,7 @@ export class ship{
     constructor(length){
       this.size = new Array(length)
         this.hits = 0;
+        this.cells = [];
         
 
 
@@ -61,6 +62,7 @@ placeShip(n,i,j, direction){
       for (let col = j; col < j +n; col++){
         if (this.board[i][col] !== null) return "ship exist"
         this.board[i][col] = myShip
+        myShip.cells.push({row:i, col:col})
       }
   this.fleet.push(myShip);
   return this.board }
@@ -71,6 +73,7 @@ placeShip(n,i,j, direction){
     for(let row = i; row < i+ n; row++){
       if (this.board[row][j] !== null) return "ship exist"
       this.board[row][j] = myShip
+      myShip.cells.push({row:row, col:j})
     }
   this.fleet.push(myShip)
 
@@ -96,7 +99,7 @@ receiveAttack(i,j){
 
   if (cell.isSunk() === "sink"){
     this.sunkFleet.add(cell)
-    return { status: "sunk", sunkCount: this.sunkFleet.size, totalShips: this.fleet.length}
+    return { status: "sunk",sunkShip: cell, sunkCount: this.sunkFleet.size, totalShips: this.fleet.length}
   }
   return { status: "hit", sunkCount: this.sunkFleet.size, totalShips: this.fleet.length}
 

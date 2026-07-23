@@ -8,6 +8,17 @@ const triedByComputer = new Set();
 let currentTurn = "player"
 let gameOver = false
 
+function colorSunkShip(grid, sunkShip) {
+  sunkShip.cells.forEach(({row, col}) => {
+    const cell = grid.querySelector('.cell[data-row="'+ row +'"][data-col="' + col +'"]');
+    if (cell) {
+        cell.classList.add("sunk")
+    }
+    
+        ;
+})
+}
+
 function handleAttack(board, grid, row, col, label){
     const result = board.receiveAttack(row,col);
     const cell = grid.querySelector(`.cell[data-row="${row}"][data-col="${col}"]`);
@@ -40,6 +51,10 @@ function computerTurn(){
         const move = getComputerMove();
         const result = handleAttack(playerOneBoard, playerOneGrid, move.row, move.col, "COMPUTER");
 
+        if (result.status === "sunk"){
+            colorSunkShip(playerOneGrid, result.sunkShip)
+        }
+
         if (playerOneBoard.sunkFleet.size === playerOneBoard.fleet.length  && playerOneBoard.fleet.length > 0){
             gameOver = true;
             console.log("Game over: Computer wins")
@@ -56,6 +71,9 @@ function playerAttack(row, col){
     if (gameOver || currentTurn !== "player") return 
     const result = handleAttack(playerTwoBoard, PlayerTwoGrid, row, col, "PLAYER")
     if (result.status === "already-attacked") return;
+    if (result.status === "sunk"){
+        colorSunkShip( PlayerTwoGrid, result.sunkShip)
+    }
 
     if (playerTwoBoard.sunkFleet.size === playerTwoBoard.fleet.length && playerTwoBoard.fleet.length > 0){
         gameOver = true;

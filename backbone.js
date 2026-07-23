@@ -135,7 +135,7 @@ export function placeComputerShip(board){
                     
                 if (cell) {
                 cell.dataset.occupied = "1";
-                cell.classList.add("occupied");
+                
                     }
                 }
             }
